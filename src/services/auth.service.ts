@@ -13,6 +13,6 @@ export const createUser = (input: NewUser) => {
   return UserModel.create(input);
 };
 
-export const getUserByEmail = async (email: string) => {
-  return UserModel.findOne({ email: email });
+export const getUserByEmail = async (email: string, pass: string) => {
+  return await UserModel.findOne({ email: email });
 };

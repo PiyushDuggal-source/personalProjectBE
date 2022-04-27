@@ -5,6 +5,6 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
     next();
     return;
   } else {
-    res.status(401).send({ auth: false });
+    res.send({ auth: false });
   }
 };

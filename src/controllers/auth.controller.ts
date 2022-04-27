@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { CreateUserInput, LoginUserInput } from "../schema/auth.schema";
 import { createUser, getUserByEmail } from "../services/auth.service";
+import bcryptjs from "bcryptjs";
 
 export const createNewUser = (
   req: Request<{}, {}, CreateUserInput>,
@@ -35,7 +36,8 @@ export const loginUser = async (
 ) => {
   const { email, password } = req.body;
 
-  const user = await getUserByEmail(email);
+  const user = await getUserByEmail(email, password);
+  console.log(user);
 
   if (!user) {
     res
@@ -44,7 +46,9 @@ export const loginUser = async (
     return;
   }
 
-  const confirmPass = user.confirmPassword(password);
+  const confirmPass = bcryptjs.compareSync(password, user.password);
+
+  console.log(confirmPass);
   if (!confirmPass) {
     res.status(401).send({ message: `Email or Password does not match!` });
     return;
@@ -52,6 +56,8 @@ export const loginUser = async (
 
   req.session.user = true;
   req.session.userEmail = user.email;
+
+  res.status(200).json({ login: true });
 };
 
 export const authMe = (req: Request, res: Response) => {

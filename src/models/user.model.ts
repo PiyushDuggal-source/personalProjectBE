@@ -12,10 +12,8 @@ export interface User extends Document {
   lastName: string;
   email: string;
   password: string;
-  confirmPassword: (pass: string) => Promise<Boolean>;
   gender: "Male" | "Female" | "Others";
   imageUrl: string;
-  comparePass: (pass: string) => Promise<Boolean>;
 }
 
 const userModel = new Schema<User>({
@@ -46,17 +44,5 @@ userModel.pre("save", function (next) {
     });
   });
 });
-
-userModel.methods.comparePassword = function (
-  candidatePassword: string
-): Promise<boolean> {
-  let password = this.password;
-  return new Promise((resolve, reject) => {
-    bcryptjs.compare(candidatePassword, password, (err, success) => {
-      if (err) return reject(err);
-      return resolve(success);
-    });
-  });
-};
 
 export const UserModel = model<User>("Users", userModel);
