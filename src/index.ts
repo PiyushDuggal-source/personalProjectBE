@@ -3,6 +3,7 @@ import MongoStore from "connect-mongo";
 import express from "express";
 import session from "express-session";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { connectToDb } from "./utils/connect";
 import router from "./routes";
 const app = express();
@@ -31,8 +32,15 @@ app.use(
     store: store,
   })
 );
+app.use(cookieParser());
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+    methods: "GET,PUT,POST,DELETE,UPDATE,OPTIONS",
+  })
+);
 
 app.use(express.json());
 

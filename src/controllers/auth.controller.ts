@@ -40,9 +40,7 @@ export const loginUser = async (
   console.log(user);
 
   if (!user) {
-    res
-      .status(404)
-      .send({ message: `User with email: ${email}, does not exist!` });
+    res.send({ error: `User with email: ${email}, does not exist!` });
     return;
   }
 
@@ -50,7 +48,7 @@ export const loginUser = async (
 
   console.log(confirmPass);
   if (!confirmPass) {
-    res.status(401).send({ message: `Email or Password does not match!` });
+    res.send({ error: `Email or Password does not match!` });
     return;
   }
 
