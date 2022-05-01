@@ -11,6 +11,7 @@ export interface User extends Document {
   firstName: string;
   lastName: string;
   email: string;
+  userName: string;
   password: string;
   gender: "Male" | "Female" | "Others";
   imageUrl: string;
@@ -19,6 +20,7 @@ export interface User extends Document {
 const userModel = new Schema<User>({
   firstName: { type: String, require: true },
   lastName: { type: String, require: true },
+  userName: { type: String, required: true, unique: true },
   email: { type: String, require: true, unique: true },
   password: { type: String, require: true },
   gender: { type: String, require: true },

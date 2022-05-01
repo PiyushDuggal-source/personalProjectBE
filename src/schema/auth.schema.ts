@@ -5,6 +5,7 @@ export const validateSignUpSchema = yup.object().shape({
   lastName: yup.string().required(),
   email: yup.string().required(),
   password: yup.string().required(),
+  userName: yup.string().required(),
   gender: yup.mixed().oneOf(["Male", "Female", "Others"]),
 });
 
