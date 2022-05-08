@@ -3,6 +3,7 @@ import {
   authMe,
   createNewUser,
   loginUser,
+  logout,
 } from "../controllers/auth.controller";
 import { isLoggedIn } from "../middleware/isLoggedIn";
 import { validate } from "../middleware/validate";
@@ -24,5 +25,6 @@ declare module "express-session" {
 routes.post("/api/signup", validate(validateSignUpSchema), createNewUser);
 routes.post("/api/login", validate(validateLoginSchema), loginUser);
 routes.get("/api/me", isLoggedIn, authMe);
+routes.get("/api/logout", logout);
 
 export default routes;

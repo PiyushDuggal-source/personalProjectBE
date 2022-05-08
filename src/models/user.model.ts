@@ -24,6 +24,7 @@ const userModel = new Schema<User>({
   email: { type: String, require: true, unique: true },
   password: { type: String, require: true },
   gender: { type: String, require: true },
+  imageUrl: { type: String },
 });
 
 userModel.pre("save", function (next) {

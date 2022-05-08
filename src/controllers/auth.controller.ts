@@ -12,7 +12,7 @@ export const createNewUser = async (
   const body = req.body;
   const imageUrl = `https://avatars.dicebear.com/api/croodles/${
     body.email[3] + body.email[2] + body.email[1] + body.password[3]
-  }`;
+  }.svg`;
   try {
     const user = await createUser({ ...body, imageUrl });
     if (user) {
@@ -22,8 +22,13 @@ export const createNewUser = async (
     console.log(error);
     console.log(error.code);
     if (error.code === 11000) {
+      if (error.keyValue.userName) {
+        return res.json({
+          error: `User with User Name: ${body.userName} is already exists`,
+        });
+      }
       return res.json({
-        error: `User with email: ${body.email} is already exists`,
+        error: `User with Email: ${body.email} is already exists`,
       });
     }
     return res.send({
@@ -66,4 +71,11 @@ export const authMe = (req: Request, res: Response) => {
   if (req.session.user) {
     res.status(200).send({ auth: true });
   }
+};
+
+export const logout = (req: Request, res: Response) => {
+  console.log(`Route is reached with ${req.path} and method ${req.method}`);
+  req.session.user = false;
+  req.session.userEmail = "";
+  res.json({ logout: true });
 };
