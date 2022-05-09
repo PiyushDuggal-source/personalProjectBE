@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 export type PostType = {
   title: string;
   body: string;
-  author: string;
+  userName: string;
   // comments: string[];
   likes: number;
   img: string;
@@ -12,7 +12,7 @@ export type PostType = {
 const postSchema = new Schema<PostType>({
   title: { type: String, required: true },
   body: { type: String, required: true },
-  author: { type: String, required: true },
+  userName: { type: String, required: true },
   // comments: [{ type: String, required: true }],
   likes: { type: Number, required: true, default: 0 },
   img: { type: String, required: true },

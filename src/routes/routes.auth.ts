@@ -18,7 +18,7 @@ declare module "express-session" {
   export interface SessionData {
     visites: number;
     user: boolean;
-    userEmail: string;
+    userName: string;
   }
 }
 

@@ -61,7 +61,7 @@ export const loginUser = async (
   }
 
   req.session.user = true;
-  req.session.userEmail = user.email;
+  req.session.userName = user.userName;
 
   res.status(200).json({ login: true });
 };
@@ -69,13 +69,13 @@ export const loginUser = async (
 export const authMe = (req: Request, res: Response) => {
   console.log(`Route is reached with ${req.path} and method ${req.method}`);
   if (req.session.user) {
-    res.status(200).send({ auth: true });
+    res.status(200).json({ auth: true, userName: `${req.session.userName}` });
   }
 };
 
 export const logout = (req: Request, res: Response) => {
   console.log(`Route is reached with ${req.path} and method ${req.method}`);
   req.session.user = false;
-  req.session.userEmail = "";
+  req.session.userName = "";
   res.json({ logout: true });
 };
