@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPost } from "../controllers/user.controller";
+import { createPost, getPosts, isLiked } from "../controllers/user.controller";
 import { isLoggedIn } from "../middleware/isLoggedIn";
 import { validate } from "../middleware/validate";
 import { validatePostSchema } from "../schema/user.schema";
@@ -12,5 +12,9 @@ routes.post(
   validate(validatePostSchema),
   createPost
 );
+
+routes.get("/api/getPosts", getPosts);
+
+routes.get("/api/isLiked/:postId", isLoggedIn, isLiked);
 
 export default routes;

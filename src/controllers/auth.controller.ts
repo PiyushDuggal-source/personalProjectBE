@@ -45,7 +45,6 @@ export const loginUser = async (
   const { email, password } = req.body;
 
   const user = await getUserByEmail(email, password);
-  console.log(user);
 
   if (!user) {
     res.send({ error: `User with email: ${email}, does not exist!` });
@@ -54,7 +53,6 @@ export const loginUser = async (
 
   const confirmPass = bcryptjs.compareSync(password, user.password);
 
-  console.log(confirmPass);
   if (!confirmPass) {
     res.status(400).json({ error: `Email or Password does not match!` });
     return;
