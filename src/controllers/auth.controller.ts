@@ -12,7 +12,7 @@ export const createNewUser = async (
   const body = req.body;
   const imageUrl = `https://avatars.dicebear.com/api/croodles/${
     body.email[3] + body.email[2] + body.email[1] + body.password[3]
-  }.svg`;
+  }.svg?scale=80`;
   try {
     const user = await createUser({ ...body, imageUrl });
     if (user) {

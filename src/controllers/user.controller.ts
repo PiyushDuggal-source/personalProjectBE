@@ -16,7 +16,7 @@ export const createPost = (
 
   const img = `https://avatars.dicebear.com/api/croodles/${
     title[2] + body[2] + userName[2] + userName[3] + title[4]
-  }.svg`;
+  }.svg?scale=80`;
   try {
     createNewPost({ ...req.body, img });
     res.json({ created: true });
