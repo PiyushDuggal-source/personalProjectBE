@@ -22,12 +22,12 @@ app.use(
     resave: true,
     saveUninitialized: false,
     cookie: {
-      maxAge: 3600000, // 1 hour
+      // maxAge: 3600000, // 1 hour
       httpOnly: true,
       secure: false,
       sameSite: "lax",
       path: "/",
-      // maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     },
     store: store,
   })

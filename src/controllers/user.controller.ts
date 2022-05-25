@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
-import { PostModel } from "../models/post.model";
 import { CreatePostInput } from "../schema/user.schema";
 import {
   createNewPost,
   getAllPost,
+  getLikesAndPosts,
   isPostLiked,
   likePost,
+  userExistsAndSendUser,
 } from "../services/user.service";
 
 export const createPost = (
@@ -44,4 +45,21 @@ export const isLiked = async (req: Request, res: Response) => {
     likePost(postId, `${req.session.userName}`);
   }
   res.json({ liked });
+};
+
+export const isUserExists = async (req: Request, res: Response) => {
+  console.log(`Route is reached with ${req.path} and method ${req.method}`);
+  const userName = req.params.userName;
+  const exists = await userExistsAndSendUser(userName, false);
+  console.log(exists);
+  res.json({ exists });
+};
+
+export const UserInfo = async (req: Request, res: Response) => {
+  console.log(`Route is reached with ${req.path} and method ${req.method}`);
+  const userName = req.params.userName;
+  const userData = await userExistsAndSendUser(userName, true);
+  const [likePoints, posts] = await getLikesAndPosts(userName);
+
+  res.json({ userData, likePoints, posts });
 };

@@ -1,4 +1,5 @@
 import { PostModel } from "../models/post.model";
+import { UserModel } from "../models/user.model";
 
 type Post = {
   body: string;
@@ -33,7 +34,6 @@ export const isPostLiked = async (postId: string, userName: string) => {
 export const likePost = async (postId: string, userName: string) => {
   const post = await PostModel.find({ _id: postId });
   let updatedLike = post[0].likes + 1;
-  console.log(updatedLike);
   try {
     await PostModel.updateOne(
       { _id: postId },
@@ -43,4 +43,36 @@ export const likePost = async (postId: string, userName: string) => {
   } catch (err: any) {
     return false;
   }
+};
+
+export const userExistsAndSendUser = async (
+  userName: string,
+  sendData: boolean
+) => {
+  const user = await UserModel.findOne({ userName: userName }, [
+    "-__v",
+    "-password",
+    "-email",
+    "-_id",
+  ]);
+  console.log(user);
+  if (!sendData) {
+    if (!user) {
+      return false;
+    } else {
+      return true;
+    }
+  } else {
+    return user;
+  }
+};
+
+export const getLikesAndPosts = async (userName: string) => {
+  const posts = await PostModel.find({ userName: userName });
+  let likes = 0;
+  posts.forEach((post) => {
+    likes = likes + post.likes;
+  });
+  const likePoints = likes * 12;
+  return [likePoints, posts];
 };

@@ -47,7 +47,7 @@ export const loginUser = async (
   const user = await getUserByEmail(email, password);
 
   if (!user) {
-    res.send({ error: `User with email: ${email}, does not exist!` });
+    res.json({ error: `User with email: ${email}, does not exist!` });
     return;
   }
 
