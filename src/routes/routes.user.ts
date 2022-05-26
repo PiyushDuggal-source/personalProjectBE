@@ -26,4 +26,5 @@ routes.get("/api/isLiked/:postId", isLoggedIn, isLiked);
 routes.get("/api/isUser/:userName", isUserExists);
 
 routes.get("/api/userInfo/:userName", UserInfo);
+
 export default routes;

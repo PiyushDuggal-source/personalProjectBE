@@ -19,8 +19,6 @@ export const createNewUser = async (
       res.status(200).json({ status: "ok", created: true });
     }
   } catch (error: any) {
-    console.log(error);
-    console.log(error.code);
     if (error.code === 11000) {
       if (error.keyValue.userName) {
         return res.json({

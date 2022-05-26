@@ -22,7 +22,6 @@ export const getAllPost = async () => {
 };
 
 export const isPostLiked = async (postId: string, userName: string) => {
-  console.log(postId, userName);
   const post = await PostModel.find({ _id: postId });
   if (post[0].likedBy.includes(userName)) {
     return true;
@@ -37,7 +36,12 @@ export const likePost = async (postId: string, userName: string) => {
   try {
     await PostModel.updateOne(
       { _id: postId },
-      { likes: updatedLike, likedBy: [`${userName}`] }
+      {
+        likes: updatedLike,
+        $push: {
+          likedBy: [`${userName}`],
+        },
+      }
     );
     return true;
   } catch (err: any) {
@@ -55,7 +59,6 @@ export const userExistsAndSendUser = async (
     "-email",
     "-_id",
   ]);
-  console.log(user);
   if (!sendData) {
     if (!user) {
       return false;
@@ -68,7 +71,13 @@ export const userExistsAndSendUser = async (
 };
 
 export const getLikesAndPosts = async (userName: string) => {
-  const posts = await PostModel.find({ userName: userName });
+  const posts = await PostModel.find({ userName: userName }, [
+    "-_id",
+    "-likedBy",
+    "-userName",
+    "-body",
+    "-__v",
+  ]);
   let likes = 0;
   posts.forEach((post) => {
     likes = likes + post.likes;

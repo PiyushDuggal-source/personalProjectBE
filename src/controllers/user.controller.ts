@@ -40,7 +40,6 @@ export const isLiked = async (req: Request, res: Response) => {
   console.log(`Route is reached with ${req.path} and method ${req.method}`);
   const postId = req.params.postId;
   const liked = await isPostLiked(postId, `${req.session.userName}`);
-  console.log(liked);
   if (!liked) {
     likePost(postId, `${req.session.userName}`);
   }
@@ -51,7 +50,6 @@ export const isUserExists = async (req: Request, res: Response) => {
   console.log(`Route is reached with ${req.path} and method ${req.method}`);
   const userName = req.params.userName;
   const exists = await userExistsAndSendUser(userName, false);
-  console.log(exists);
   res.json({ exists });
 };
 
@@ -60,6 +58,5 @@ export const UserInfo = async (req: Request, res: Response) => {
   const userName = req.params.userName;
   const userData = await userExistsAndSendUser(userName, true);
   const [likePoints, posts] = await getLikesAndPosts(userName);
-
   res.json({ userData, likePoints, posts });
 };
