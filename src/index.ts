@@ -11,8 +11,8 @@ const app = express();
 connectToDb(process.env.MONGO_URL as string);
 
 const store = MongoStore.create({
-  mongoUrl: "mongodb://127.0.0.1:27017/backend",
-  ttl: 86400,
+  mongoUrl: process.env.MONGO_URL,
+  ttl: 1000 * 60 * 60 * 24 * 7,
   collectionName: "cookieSessions",
 });
 
@@ -37,7 +37,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: "http://localhost:3002",
     methods: "GET,PUT,POST,DELETE,UPDATE,OPTIONS",
   })
 );
@@ -46,6 +46,10 @@ app.use(express.json());
 
 app.use(router);
 
-app.listen(process.env.PORT, () => {
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
+
+app.listen(process.env.PORT || 4000, () => {
   console.log("app is running");
 });
