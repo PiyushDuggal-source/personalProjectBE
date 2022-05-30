@@ -9,11 +9,18 @@ import { connectToDb } from "./utils/connect";
 import router from "./routes";
 import { Response, Request } from "express";
 const app = express();
+const LOCAL = true;
 
-connectToDb(process.env.MONGO_URL as string);
+connectToDb(
+  LOCAL
+    ? (process.env.MONGO_URL_LOCAL as string)
+    : (process.env.MONGO_URL as string)
+);
 
 const store = MongoStore.create({
-  mongoUrl: process.env.MONGO_URL,
+  mongoUrl: LOCAL
+    ? (process.env.MONGO_URL_LOCAL as string)
+    : (process.env.MONGO_URL as string),
   ttl: 1000 * 60 * 60 * 24 * 7,
   collectionName: "cookieSessions",
 });
@@ -39,7 +46,11 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: "https://imstagram-app.herokuapp.com",
+    origin: [
+      "https://imstagram-app.herokuapp.com",
+      "http://localhost:3000",
+      "http://imstagram-app.herokuapp.com",
+    ],
     methods: "GET,PUT,POST,DELETE,UPDATE,OPTIONS",
   })
 );
