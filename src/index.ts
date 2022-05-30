@@ -1,11 +1,13 @@
 require("dotenv").config({ path: __dirname + "/.env" });
-import MongoStore from "connect-mongo";
-import express from "express";
-import session from "express-session";
-import cors from "cors";
-import cookieParser from "cookie-parser";
+import MongoStore = require("connect-mongo");
+import express = require("express");
+import * as path from "path";
+import session = require("express-session");
+import cors = require("cors");
+import cookieParser = require("cookie-parser");
 import { connectToDb } from "./utils/connect";
 import router from "./routes";
+import { Response, Request } from "express";
 const app = express();
 
 connectToDb(process.env.MONGO_URL as string);
@@ -37,12 +39,21 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3002",
+    origin: "https://imstagram-app.herokuapp.com",
     methods: "GET,PUT,POST,DELETE,UPDATE,OPTIONS",
   })
 );
 
 app.use(express.json());
+
+if (process.env.NODE_ENV === "production") {
+  router.use(express.static("personalProjectFE/build"));
+  router.get("*", (req: Request, res: Response) => {
+    res.sendFile(
+      path.join(__dirname, "../", "personalProjectFE", "build", "index.html")
+    );
+  });
+}
 
 app.use(router);
 
@@ -50,6 +61,8 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
-app.listen(process.env.PORT || 4000, () => {
+const port: number = Number(process.env.PORT);
+
+app.listen(port || 4000, () => {
   console.log("app is running");
 });

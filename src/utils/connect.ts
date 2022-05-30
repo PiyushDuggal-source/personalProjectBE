@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
+import { connect } from "mongoose";
 
 export const connectToDb = async (dbURL: string) => {
   try {
-    mongoose.connect(dbURL).then(() => {
+    connect(dbURL).then(() => {
       console.log("connected to DB");
     });
   } catch (err: any) {

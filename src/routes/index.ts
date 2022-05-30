@@ -1,5 +1,6 @@
 import authRoutes from "./routes.auth";
 import userRoutes from "./routes.user";
+import express = require("express");
 import { Router } from "express";
 
 const router = Router();

@@ -1,5 +1,5 @@
 import { Schema, Document, model } from "mongoose";
-import bcryptjs from "bcryptjs";
+import * as bcryptjs from "bcryptjs";
 
 enum Gender {
   Male = "Male",

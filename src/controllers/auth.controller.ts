@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { CreateUserInput, LoginUserInput } from "../schema/auth.schema";
 import { createUser, getUserByEmail } from "../services/auth.service";
-import bcryptjs from "bcryptjs";
-import { UserModel } from "../models/user.model";
+import * as bcryptjs from "bcryptjs";
 
 export const createNewUser = async (
   req: Request<{}, {}, CreateUserInput>,
